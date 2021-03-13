@@ -1,0 +1,61 @@
+#include <iostream>
+#include <fstream>
+#include <algorithm>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+int main(int argc, char** args) {
+    std::fstream myfile;
+    if (argc < 2) {
+        cout << "Required parameter filename missing.\n";
+        return 1;
+    }
+
+    myfile.open(args[1]);
+    if (!(myfile.is_open())) { 
+        cout << "File " << args[1] << " not found\n"; 
+        return 1; 
+    }
+    string s;
+
+    vector<string> strvec;
+    int count = 0;
+    while (myfile >> s) {
+        count++;
+        //cout << s << "\n";
+        strvec.push_back(s);
+    }
+
+    std::sort(strvec.begin(), strvec.end());
+    cout << "Num words: " << count << "\n";
+    myfile.close();
+
+    string cur = "";
+    string prev = "";
+    string mostfr = "";
+    int curcount = 0;
+    int maxcount = 0;
+    
+    for (int a = 0; a < 10; a++) {
+        for (int i = 0; i < strvec.size(); i++) {
+            cur = strvec[i];
+            if (cur == prev) {
+                curcount++;
+            }
+            else {
+                curcount = 1;
+            }
+            if (curcount > maxcount) {
+                maxcount = curcount;
+                mostfr = cur;
+            }
+            prev = cur;
+        }
+        cout << "The" << a << "freq word is " << mostfr << ". It appears " << maxcount << " times.\n";
+        strvec.erase(strvec.begin(),strvec.begin()+maxcount);
+        a++;
+    }
+    return 0;
+}
