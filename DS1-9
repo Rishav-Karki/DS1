@@ -1,0 +1,59 @@
+#include<iostream>
+
+using namespace std;
+
+template <class T>
+
+struct ListNode
+{
+    T value;
+    ListNode* next;
+public:
+    ListNode(T value1, ListNode* next1 = NULL)
+    {
+        value = value1;   next = next1;
+    }
+};
+
+template <class T>
+void prepend(T element, ListNode<double>*next1) // add an element in the beginning
+{
+    struct ListNode* newnode = new ListNode();
+    ListNode->value = element;
+    ListNode->next = next1;
+    next1 = newnode;
+}
+
+
+unsigned int numelements(struct ListNode<double>* ptr)//returns the number of elements in the list
+{
+    int count = 0;
+    while (ptr != NULL) {
+        count++;
+        ptr = ptr->next;
+    }
+    return count;
+}
+
+
+int main()
+{
+    ListNode<double>* numberList = NULL;   // List of numbers
+    double number = 1;
+    cout << "Enter Number: " << endl;
+    while (number != 0)
+    {
+        cin >> number;
+        numberList = new ListNode<double>(number, numberList);
+    }
+    cout << endl << "The contents of the list are: " << endl;
+    ListNode<double>* ptr = numberList;
+    while (ptr != NULL)
+    {
+        cout << ptr->value << "  "; // Process node
+        ptr = ptr->next;            // Move to next node
+    }
+    prepend(666,ptr);
+    numelements(ptr);
+    return 0;
+}
