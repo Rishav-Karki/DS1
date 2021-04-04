@@ -1,0 +1,179 @@
+#include <iostream>
+#include <string>
+#include <assert.h>
+
+using namespace std;
+
+template <class T>
+class DSLinkedList {
+
+    struct ListNode {
+        T value;
+        ListNode* next;
+        ListNode(T value1, ListNode* next1 = NULL) {
+            value = value1;   next = next1;
+        }   
+    };
+
+    ListNode* head;
+    ListNode* tail;
+
+    unsigned int num_elements;
+
+public:
+    DSLinkedList() {
+        head = NULL;
+        tail = NULL;
+        num_elements = 0;
+    }
+    void append(T val) {
+        ListNode* newNode = new ListNode(val);
+        if (head == NULL) {
+            head = newNode;
+            tail = newNode;
+        }
+        else {
+            tail->next = newNode;
+            tail = newNode;
+        }
+        num_elements++;
+    }
+
+    void prepend(T element) {
+        ListNode* newNode = new ListNode(element);
+        if (head == NULL) {
+            head = newNode;
+            tail = newNode;
+        }
+        else {
+            newNode->next = head;
+            head = newNode;
+        }
+        num_elements++;
+    }
+
+    void print() {
+        ListNode* tp = head;
+        while (tp != NULL) {
+            cout << tp->value << "\n";
+            tp = tp->next;
+        }
+    }
+
+    unsigned int numelements() {
+        return num_elements;
+    }
+
+    bool find(T needle) {
+        ListNode* tp = head;
+        while (tp != NULL) {
+            if (tp->value == needle) return true;
+            tp = tp->next;
+        }
+        return false;
+    }
+
+    bool remove(T element) {
+        //Removes all instances of element
+        bool found = false;
+        ListNode* tpprev = NULL;
+        ListNode* tp = head;
+
+        while (tp != NULL) {
+            if (tp->value == element) {
+                found = true; ListNode* delme = tp;
+                if (tpprev == NULL) {  // To check if current node is head node
+                    head = tp->next;
+                    tp = head;
+                }
+                else {
+                    tpprev->next = tp->next;
+                    tp = tpprev->next;
+                }
+                // If found, make previous node's 'next' point to following node
+                num_elements--; delete delme;
+            }
+            else {
+                if (tpprev == NULL) {
+                    tpprev = tp;
+                    tp = tp->next;
+                }
+                else {
+                    tp = tp->next;
+                    tpprev = tpprev->next;
+                }
+                // If not found, move to the next
+            }
+        }
+        return found;
+    }
+        bool del_first() {
+            if (head == NULL)
+                return false;
+            ListNode* tmp = head;
+            head = head->next;
+            num_elements--;
+            delete tmp;
+        }
+        bool del_last() {
+            ListNode* tmp = head;
+            head = head->next;
+            num_elements--;
+            delete tmp;
+            return false;
+        }
+    
+
+    ~DSLinkedList() {
+        //cout << "Destructor called\n";
+        ListNode* tmp = head;
+        ListNode* prev;
+        while (tmp) {
+            prev = tmp;
+            tmp = tmp->next;
+            delete prev;
+        }
+    }
+};
+
+int main() {
+    DSLinkedList<int> myll;
+    cout << "Values: " << endl;
+    for (int i = 1; i < 7; i++) {
+       // cout << i << endl;
+        myll.append(i);
+    }
+    myll.print();
+    cout<<"-------"<<endl;
+
+    for (int i = 0; i < 6; i++) {
+
+       myll.del_first();
+    }
+    myll.print();
+
+    cout << "---part 2----" << endl;
+
+    cout << "new Values: " << endl;
+
+    for (int i = 1; i < 4; i++) {
+        
+        myll.append(i);
+    }
+
+    myll.print();
+
+    myll.find(3);
+
+    for (int i = 0; i < 3; i++) {
+
+        myll.del_last();
+    }
+    myll.print();    
+
+
+   cout << "\nNum elements: " << myll.numelements() << endl;
+    
+  
+    return 0;
+}
