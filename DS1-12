@@ -1,0 +1,155 @@
+#include<iostream>
+#include<string.h>
+#include"DSLL.h"
+
+using namespace std;
+
+class piece_of_art {
+	int ID;
+	string name;
+	double price;
+public:
+    piece_of_art(){}
+	piece_of_art(int ID, string name, double price) 
+    {
+		this->ID = ID;
+		this->name = name;
+		this->price = price;
+	}
+
+    void set_base(int ID, string name, double price)
+    {
+        this->name = name;
+        this->ID = ID;
+        this->price = price;
+    }
+
+    void set_ID(int ID)
+    {
+        this->ID = ID;
+    } 
+
+    void set_name(string name)
+    {
+        this->name = name;
+    }
+   
+    void set_price(double price)
+    {
+        this->price = price;
+    }
+
+    int get_ID()
+    {
+        return this->ID;
+    }
+
+    string get_name()
+    {
+        return this->name;
+    }
+
+    double get_price()
+    {
+        return this->price;
+    }
+
+};
+
+class painting : public piece_of_art
+{
+    int height;
+    int width;
+public:
+    painting(){}
+    painting(int height, int width)
+    {
+        this->height = height;
+        this->width = width;
+    }
+};
+
+class furniture : public piece_of_art
+{
+    char condition;
+public:
+    furniture(char condition)
+    {
+        this->condition = condition;
+    }
+};
+
+class sculpture : public piece_of_art
+{
+    int weight;
+public:
+    sculpture(int weight)
+    {
+        this->weight = weight;
+    }
+};
+
+
+int main()
+{
+    painting Thepainting(1, 1);
+    Thepainting.set_base(01, "The Starry Night", 101);
+    furniture Thefurniture('a');
+    Thefurniture.set_base(02, "The couch", 102);
+    sculpture Thesculpture(1000);
+    Thesculpture.set_base(03, "The Thinker", 103);
+
+    DSLinkedList<piece_of_art> artlist;
+    artlist.append(Thepainting);
+    artlist.append(Thefurniture);
+    artlist.append(Thesculpture);
+    
+    double sum = 0;
+    auto i = artlist.front();
+    while (i != NULL)
+    {
+        sum += i->get_price();
+        i = artlist.next();
+    }
+    cout << "Total price: " << sum << endl;
+
+
+    DSLinkedList<painting> paintinglist;
+    int op = 0;
+    char word[100];
+    while (op != 3) {
+        cout << endl;
+        cout << "Select one option: " << endl;
+        cout << "1 - add painting, 2 - get number of paintings, 3 - quit." << endl;
+        cin >> op;
+        if (op == 1) 
+        {
+            cout << "Enter price and name of painting: "<<endl;
+            cin.getline(word, 100);
+            cin.getline(word, 100);
+            string input = word;
+            string paintingprice = input.substr(0, input.find(" "));
+            int pri = stoi(paintingprice); 
+            string paintingname = input.substr(paintingprice.length()+1,100);
+
+            painting Newpainting;
+            Newpainting.set_price(pri);
+            Newpainting.set_name(paintingname);
+            paintinglist.append(Newpainting);
+        }
+
+        if (op == 2)
+        {
+            double c = 0;
+            auto in = paintinglist.front();
+            while (in  != NULL)
+            {
+                c += 1;
+                in = paintinglist.next();
+            }
+            cout << "Number of paintings: " << c << endl;
+        }
+    }
+
+    return 0;
+}
