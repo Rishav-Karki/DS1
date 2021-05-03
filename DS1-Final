@@ -1,0 +1,151 @@
+#include<iostream>
+
+using namespace std;
+
+class astack1 {;
+	int top;
+	int size;
+	int value[3];
+public:
+	astack1(){}
+	astack1(int size) {
+		this->size = size;
+		top = -1;
+	};
+	
+	void push(int elem) {
+		top++;
+		value[top] = elem;
+	}
+
+	int pop() {
+		int x = 1;
+		if (top==-1) { cout << "stack is empty"; }
+		else {
+			x = value[top];
+			delete &x;
+			top =top - 1; 
+		}
+	}
+
+	bool is_full() {
+		if (top==size-1) {
+			return true;
+		}
+		else return false;
+	}
+
+	bool is_empty() {
+		if (top == -1) {
+			return true;
+		}
+		else return false;
+	}
+
+};
+
+class astack2 {
+	int size;
+	int top;
+	int* value;
+public:
+	astack2(int size) {
+		this->size = size;
+		top = -1;
+		value = new int[size];
+	}
+
+	void push(int elem) {
+		top++;
+		value[top] = elem;
+	}
+
+	~astack2() {
+		delete value;
+	}
+};
+
+template <class T>
+class astack3 {
+	int size;
+	int top;
+	T* value;
+public:
+	astack3(int size) {
+		this->size = size;
+		top = -1;
+		value = new int[size];
+	}
+
+	void push(T elem) {
+		top++;
+		value[top] = elem;
+	}
+
+	T* pop() {
+		int x = 1;
+		if (top == -1) { cout << "stack is empty"; }
+		else {
+			x = value[top];
+			delete& x;
+			top = top-1;
+		}
+	}
+
+	~astack3() {
+		delete value;
+	}
+};
+
+class student {
+	int id;
+	string name;
+public:
+	student(int id, string name) {
+		this->id = id;
+		this->name = name;
+	}
+	const int get_id()
+	{
+		return this->id;
+	}
+	const string get_name()
+	{
+		return this->name;
+	}
+
+};
+
+int main() 
+{ 
+	astack1 arraystack1;
+	arraystack1.push(1);
+	arraystack1.push(2);
+	
+	astack2 arraystack2(10);
+	arraystack2.push(1);
+	arraystack2.push(2);
+
+	student st1 (001,"John");
+	student st2(002, "Paul");
+	astack3<student> arraystack3(2);
+	arraystack3.push(st1);
+	arraystack3.push(st2);
+	cout << arraystack3.pop() << endl;
+	cout << st1.get_name() << endl;
+	cout << arraystack3.pop() << endl;
+	cout << st2.get_name() << endl;
+	return 0;
+}
+
+/*
+* we can implemetn PriorityQueue by the following way
+* the queue can use a push function based on the priority of the input. 
+* the inputs can hace a priority calue that determines which item is pushed first into the queue
+* this allows the queue to be built based on the priority of the items 
+* and the item with the highest priority will be popped first
+* In he mentioned method as the queue is built on the basis of priority
+* adding and removing the item will have
+* the time complexity of O(n)
+* 
+*/
